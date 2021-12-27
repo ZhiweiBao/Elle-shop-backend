@@ -708,6 +708,10 @@ label.date {
   transform: rotate(45deg)
 }
 
+option {
+  color: #ccc
+}
+
 select {
   color: #828482
 }
