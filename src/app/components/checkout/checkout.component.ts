@@ -4,6 +4,7 @@ import {ECommerceFormService} from "../../services/ecommerce-form.service";
 import {Country} from "../../common/country";
 import {State} from "../../common/state";
 import {CustomFormValidators} from "../../validators/custom-form-validators";
+import {CartService} from "../../services/cart.service";
 
 @Component({
   selector: 'app-checkout',
@@ -22,10 +23,13 @@ export class CheckoutComponent implements OnInit {
   billingAddressStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
-              private formService: ECommerceFormService) {
+              private formService: ECommerceFormService,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
+    this.reviewCartDetails();
+
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
         firstName: new FormControl('', [
@@ -76,10 +80,10 @@ export class CheckoutComponent implements OnInit {
         nameOnCard: new FormControl('', [
           Validators.required,
           Validators.minLength(2)]),
-        cardNumber: new FormControl('',[
+        cardNumber: new FormControl('', [
           Validators.required,
           Validators.pattern('[0-9]{16}')]),
-        securityCode:  new FormControl('',[
+        securityCode: new FormControl('', [
           Validators.required,
           Validators.pattern('[0-9]{3}')]),
         expirationMonth: [''],
@@ -120,20 +124,62 @@ export class CheckoutComponent implements OnInit {
   get email() {
     return this.checkoutFormGroup.get('customer.email');
   }
-  get shippingAddressStreet() {    return this.checkoutFormGroup.get('shippingAddress.street');  }
-  get shippingAddressCity() {    return this.checkoutFormGroup.get('shippingAddress.city');  }
-  get shippingAddressState() {    return this.checkoutFormGroup.get('shippingAddress.state');  }
-  get shippingAddressCountry() {    return this.checkoutFormGroup.get('shippingAddress.country');  }
-  get shippingAddressZipCode() {    return this.checkoutFormGroup.get('shippingAddress.zipCode');  }
-  get billingAddressStreet() {    return this.checkoutFormGroup.get('billingAddress.street');  }
-  get billingAddressCity() {    return this.checkoutFormGroup.get('billingAddress.city');  }
-  get billingAddressState() {    return this.checkoutFormGroup.get('billingAddress.state');  }
-  get billingAddressCountry() {    return this.checkoutFormGroup.get('billingAddress.country');  }
-  get billingAddressZipCode() {    return this.checkoutFormGroup.get('billingAddress.zipCode');  }
-  get creditCardType() {    return this.checkoutFormGroup.get('creditCard.cardType');  }
-  get creditCardNameOnCard() {    return this.checkoutFormGroup.get('creditCard.nameOnCard');  }
-  get creditCardNumber() {    return this.checkoutFormGroup.get('creditCard.cardNumber');  }
-  get creditCardSecurityCode() {    return this.checkoutFormGroup.get('creditCard.securityCode');  }
+
+  get shippingAddressStreet() {
+    return this.checkoutFormGroup.get('shippingAddress.street');
+  }
+
+  get shippingAddressCity() {
+    return this.checkoutFormGroup.get('shippingAddress.city');
+  }
+
+  get shippingAddressState() {
+    return this.checkoutFormGroup.get('shippingAddress.state');
+  }
+
+  get shippingAddressCountry() {
+    return this.checkoutFormGroup.get('shippingAddress.country');
+  }
+
+  get shippingAddressZipCode() {
+    return this.checkoutFormGroup.get('shippingAddress.zipCode');
+  }
+
+  get billingAddressStreet() {
+    return this.checkoutFormGroup.get('billingAddress.street');
+  }
+
+  get billingAddressCity() {
+    return this.checkoutFormGroup.get('billingAddress.city');
+  }
+
+  get billingAddressState() {
+    return this.checkoutFormGroup.get('billingAddress.state');
+  }
+
+  get billingAddressCountry() {
+    return this.checkoutFormGroup.get('billingAddress.country');
+  }
+
+  get billingAddressZipCode() {
+    return this.checkoutFormGroup.get('billingAddress.zipCode');
+  }
+
+  get creditCardType() {
+    return this.checkoutFormGroup.get('creditCard.cardType');
+  }
+
+  get creditCardNameOnCard() {
+    return this.checkoutFormGroup.get('creditCard.nameOnCard');
+  }
+
+  get creditCardNumber() {
+    return this.checkoutFormGroup.get('creditCard.cardNumber');
+  }
+
+  get creditCardSecurityCode() {
+    return this.checkoutFormGroup.get('creditCard.securityCode');
+  }
 
   purchase() {
     console.log("Handle the submit button");
@@ -199,5 +245,14 @@ export class CheckoutComponent implements OnInit {
         formGroup?.get('state')?.setValue(data[0]);
       }
     )
+  }
+
+  private reviewCartDetails() {
+    this.cartService.totalQuantity.subscribe(
+      data => this.totalQuantity = data
+    );
+    this.cartService.totalPrice.subscribe(
+      data => this.totalPrice = data
+    );
   }
 }
