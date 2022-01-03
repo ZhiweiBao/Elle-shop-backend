@@ -1,6 +1,7 @@
 package edu.neu.ecommerce.config;
 
 import edu.neu.ecommerce.entity.Country;
+import edu.neu.ecommerce.entity.Order;
 import edu.neu.ecommerce.entity.Product;
 import edu.neu.ecommerce.entity.ProductCategory;
 import edu.neu.ecommerce.entity.State;
@@ -40,6 +41,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
     disableHttpMethods(Country.class, config, theUnsupportedActions);
     disableHttpMethods(State.class, config, theUnsupportedActions);
+    disableHttpMethods(Order.class, config, theUnsupportedActions);
 
     exposeIds(config);
 
