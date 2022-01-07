@@ -19,7 +19,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 @Configuration
-public class MyDataRestConfig implements RepositoryRestConfigurer {
+public class DataRestConfig implements RepositoryRestConfigurer {
 
   @Value("${allowed.origins}")
   private String[] allowedOrigins;
@@ -27,7 +27,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
   private final EntityManager entityManager;
 
   @Autowired
-  public MyDataRestConfig(EntityManager entityManager) {
+  public DataRestConfig(EntityManager entityManager) {
     this.entityManager = entityManager;
   }
 
