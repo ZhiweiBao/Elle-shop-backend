@@ -63,6 +63,14 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -75,6 +83,9 @@
             },
             "development": {
               "browserTarget": "ecommerce-frontend:build:development"
+            },
+            "qa": {
+              "browserTarget": "ecommerce-frontend:build:qa"
             }
           },
           "defaultConfiguration": "development"
